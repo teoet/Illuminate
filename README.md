@@ -19,33 +19,33 @@ It also includes a simple UDP listener to emulate a drone.
 
 ## Run (you will need 4 terminal windows, please keep order of the steps, cause proper ERROR handling is not done yet) 
 1) Start MQTT broker in termnial
-   - mosquitto -p 1888 -v
+   mosquitto -p 1888 -v
 
 2) Start the UDP listener (aka simulated drone) in another terminal/window
-   - python udp_listener.py --port 5001
+   python udp_listener.py --port 5001
 
 3) Run the bridge in another terminal/window
-   - python bridge.py --config config.yaml
+   python bridge.py --config config.yaml
 
     You should see status lines every ~5s, and per-command logs.
 
 4) Test commands in another terminal:
 # Valid flow example
-    - mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"arm"}'
-    - mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"takeoff","alt":30.0}'
-    - mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"goto","lat":40.2340,"lon":111.6590,"alt":50.0}'
-    - mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"land"}'
-    - mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"disarm"}'
+    mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"arm"}'
+    mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"takeoff","alt":30.0}'
+    mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"goto","lat":40.2340,"lon":111.6590,"alt":50.0}'
+    mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"land"}'
+    mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"disarm"}'
 
 # Validation failures
    # Too high
-    - mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"goto","lat":40.2340,"lon":111.6590,"alt":150.0}'
+    mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"goto","lat":40.2340,"lon":111.6590,"alt":150.0}'
    # Outside geofence
-    - mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"goto","lat":40.9999,"lon":111.6590,"alt":50.0}'
+    mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"goto","lat":40.9999,"lon":111.6590,"alt":50.0}'
    # Not armed yet
-    - mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"takeoff","alt":30.0}'
+    mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"takeoff","alt":30.0}'
    # Must land first
-    - mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"disarm"}' 
+    mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"disarm"}' 
 
 ## Just playing with specific validation errors :)
 - Missing fields: {"cmd":"goto","lat":1.0}
