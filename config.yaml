@@ -1,0 +1,20 @@
+mqtt:
+  broker: "localhost"
+  port: 1888
+  topic: "mission/drone/1/command"
+
+udp:
+  host: "127.0.0.1"
+  port: 5001
+
+geofence:
+  center_lat: 40.2338
+  center_lon: 111.6585
+  radius_m: 500
+  max_altitude_m: 120
+  min_altitude_m: 10
+
+logging:
+  level: "DBG"  # INFO or DBG
+  blackbox: true #if true, write JSON logs to file (always full detail)
+  file: "logs/bridge.blackbox.log"  #optional custom path
