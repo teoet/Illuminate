@@ -4,7 +4,7 @@ This repo contains a small service that subscribes to MQTT drone commands, valid
 It also includes a simple UDP listener to emulate a drone.
 
 ## Prerequisites
-- Python 3.11 (
+- Python 3.11
 - MacOS 26.0.1 (Didn't have Ubuntu machine with me, but should work fine with any Unix based systems) 
 - Mosquitto (MQTT broker) - If you are on Mac by any chance: brew install masquitto, on Ubunto: sudo apt install mosquitto mosquitto-clients
 - Python deps: pip install -r requirements.txt
@@ -30,21 +30,21 @@ It also includes a simple UDP listener to emulate a drone.
     You should see status lines every ~5s, and per-command logs.
 
 4) Test commands in another terminal:
-# Valid flow example
+## Valid flow example
     mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"arm"}'
     mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"takeoff","alt":30.0}'
     mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"goto","lat":40.2340,"lon":111.6590,"alt":50.0}'
     mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"land"}'
     mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"disarm"}'
 
-# Validation failures
-   # Too high
+## Validation failures
+   ### Too high
     mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"goto","lat":40.2340,"lon":111.6590,"alt":150.0}'
-   # Outside geofence
+   ### Outside geofence
     mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"goto","lat":40.9999,"lon":111.6590,"alt":50.0}'
-   # Not armed yet
+   ### Not armed yet
     mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"takeoff","alt":30.0}'
-   # Must land first
+   ### Must land first
     mosquitto_pub -h localhost -p 1888 -t 'mission/drone/1/command' -m '{"cmd":"disarm"}' 
 
 ## Just playing with specific validation errors :)
